@@ -28,11 +28,18 @@ router.delete("/", (req, res) => {
 
   fs.writeFile("users.json", JSON.stringify(filtered), function writeJSON(err) {
     if (err) return console.log(err);
-    console.log(JSON.stringify(filtered));
     console.log("writing to  users");
   });
   res.send({
     message: "User Deleted Succesfully!",
   });
 });
+
+router.get("/:id", (req, res) => {
+  const user = users.filter(function (user, index, arr) {
+    return user.id === parseInt(req.params.id);
+  });
+  res.send(user);
+});
+
 module.exports = router;
