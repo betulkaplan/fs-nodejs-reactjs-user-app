@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-local-crud-app",
+  "version": "1.0.0",
+  "description": "lesson",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js ",
+    "server": "nodemon server.js",
+    "start-client": "npm start --prefix client",
+    "dev": "concurrently -n 'server,client' -c 'red,yellow' \"npm run server\" \"npm run start-client\""
+  },
+  "author": "ed",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.5.1",
+    "express": "^4.17.2"
+  }
+}
