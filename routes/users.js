@@ -31,6 +31,8 @@ router.delete("/", (req, res) => {
     console.log(JSON.stringify(filtered));
     console.log("writing to  users");
   });
-  res.send({ message: "User Deleted Succesfully!" });
+  res.send({
+    message: "User Deleted Succesfully!",
+  });
 });
 module.exports = router;
