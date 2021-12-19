@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Input, Divider } from "antd";
+import { Button, Input, Divider, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const Details = () => {
   let { id } = useParams();
   const [user, setUser] = useState();
+  const [newUser, setnewUser] = useState()
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   let navigate = useNavigate();
 
   const fetchUser = async () => {
@@ -24,6 +27,34 @@ const Details = () => {
     });
     const response = await res.json();
     navigate(`/`);
+  };
+
+  const handleEditClick = async () => {
+    setIsModalVisible(true);
+    setnewUser(user[0])
+  };
+  const handleOk = () => {
+    setIsModalVisible(false);
+    console.log(newUser)
+
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newUser)
+    };
+    fetch(`http://localhost:5000/users/${id}`, requestOptions)
+      .then(response => response.json())
+      .then(data => navigate(`/`));
+
+
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const handleChange = (e) => {
+    console.log(e.target.id)
+    setnewUser({ ...newUser, [e.target.id]: e.target.value })
   };
 
   return (
@@ -45,9 +76,19 @@ const Details = () => {
             <p>{user.phone}</p>
           </div>
         ))}
-      <Button type="primary" onClick={handleDeleteClick}>
-        Delete
-      </Button>
+      <div>
+        <Button type="danger" onClick={handleDeleteClick}>
+          Delete
+        </Button>
+        <Button type="primary" onClick={handleEditClick}>
+          Edit
+        </Button>
+        <Modal title="Edit User Info" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+          <Input id="name" defaultValue={user ? user[0].name : ""} onChange={handleChange} />
+          <Input id="username" defaultValue={user ? user[0].username : ""} onChange={handleChange} />
+          <Input id="phone" defaultValue={user ? user[0].phone : ""} onChange={handleChange} />
+        </Modal>
+      </div>
     </div>
   );
 };

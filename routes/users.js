@@ -42,4 +42,23 @@ router.get("/:id", (req, res) => {
   res.send(user);
 });
 
+router.put("/:id", (req, res) => {
+  console.log('id------', req.params.id)
+  // console.log(req.body)
+
+  let filtered = users.filter(function (user, index, arr) {
+    return user.id != req.params.id;
+  });
+  console.log([...filtered, req.body])
+
+  fs.writeFile("users.json", JSON.stringify([...filtered, req.body]), function writeJSON(err) {
+    if (err) return console.log(err);
+    console.log("writing to users");
+  });
+  res.send({
+    message: "User Updated Succesfully!",
+  });
+
+});
+
 module.exports = router;
