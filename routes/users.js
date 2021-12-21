@@ -5,21 +5,25 @@ const User = require('../models/user')
 
 const users = require("../users.json");
 
-router.get("/", (req, res) => {
-  if (req.query.name) {
-    const name = users?.filter((name) =>
-      name.name.toLowerCase().includes(req.query.name.toLowerCase())
-    );
-    if (name) {
-      res.send(name);
-    } else {
-      res.send({ error: "Name not found" });
-    }
-  } else {
-    res.send({ error: "Please provide a name!" });
-  }
+router.get("/all", async (req, res) => {
 
-  // res.send(users);
+  User.find()
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+
+router.get("/", async (req, res) => {
+  const re = new RegExp(`${req.query.name}`, "i");
+  // const user = await User.find({ name: re }).exec();
+  const user = await User.find({ $or: [{ name: re }, { username: re }] }).exec();
+
+  res.send(user);
+
 });
 
 router.delete("/", (req, res) => {
