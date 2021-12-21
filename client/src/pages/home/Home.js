@@ -13,7 +13,6 @@ function App() {
     const res = await fetch(`http://localhost:5000/users?name=${inp}`);
     const response = await res.json();
     setUsers(response);
-    console.log(response);
   };
 
   const handleInputChange = (event) => {
@@ -53,7 +52,7 @@ function App() {
         {users &&
           users.map((user) => (
             <div
-              key={user.id}
+              key={user._id}
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -68,7 +67,7 @@ function App() {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Button
                   type="primary"
-                  onClick={() => handleDetailClick(user.id)}
+                  onClick={() => handleDetailClick(user._id)}
                 >
                   Details
                 </Button>

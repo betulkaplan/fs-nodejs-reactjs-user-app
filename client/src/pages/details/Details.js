@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   UserOutlined,
   DingtalkOutlined,
-  PhoneOutlined,
+  MailOutlined,
 } from "@ant-design/icons";
 
 const Details = () => {
@@ -102,8 +102,8 @@ const Details = () => {
                 display: "flex",
               }}
             >
-              <PhoneOutlined style={{ fontSize: "24px", marginRight: 5 }} />
-              <p>{user.phone}</p>
+              <MailOutlined style={{ fontSize: "24px", marginRight: 5 }} />
+              <p>{user.email}</p>
             </div>
           </Card>
         ))}
@@ -139,8 +139,8 @@ const Details = () => {
             onChange={handleChange}
           />
           <Input
-            id="phone"
-            defaultValue={user ? user[0].phone : ""}
+            id="email"
+            defaultValue={user ? user[0].email : ""}
             onChange={handleChange}
           />
         </Modal>

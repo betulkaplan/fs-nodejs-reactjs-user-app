@@ -40,11 +40,10 @@ router.delete("/", (req, res) => {
   });
 });
 
-router.get("/:id", (req, res) => {
-  const user = users.filter(function (user, index, arr) {
-    return user.id === parseInt(req.params.id);
-  });
-  res.send(user);
+router.get("/:id", async (req, res) => {
+  const user = await User.findById(req.params.id).exec();
+  res.send([user]);
+
 });
 
 router.put("/:id", (req, res) => {
