@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
+const User = require('../models/user')
 
 const users = require("../users.json");
 
@@ -60,5 +61,21 @@ router.put("/:id", (req, res) => {
   });
 
 });
+
+router.post("/", (req, res) => {
+  const user = new User({
+    name: req.body.name,
+    username: req.body.username,
+    email: req.body.email
+  })
+
+  user.save()
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
 
 module.exports = router;
