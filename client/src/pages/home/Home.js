@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Input, Divider } from "antd";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
+import style from "./home.module.css"
 
 function App() {
   const [users, setUsers] = useState();
@@ -26,17 +27,27 @@ function App() {
     navigate(`/detail/${id}`);
   };
 
+  const addNewUser = () => {
+    navigate("/add");
+  }
+
   return (
     <div className="App">
-      <h2>User App</h2>
-      {/* <Button type="primary">Primary Button</Button> */}
-      <Input
-        style={{ width: "200px" }}
-        type="text"
-        onChange={handleInputChange}
-        value={input}
-        placeholder="name"
-      />
+      <div className={style.topControl}>
+        <h2>User App</h2>
+        <Input
+          className={style.topinput}
+          type="text"
+          onChange={handleInputChange}
+          value={input}
+          placeholder="name"
+        />
+        <Button
+          className={style.topButton}
+          type="primary"
+          onClick={addNewUser}
+        >Add New User</Button>
+      </div>
       <div>
         {users && <Divider>Result</Divider>}
         {users &&
