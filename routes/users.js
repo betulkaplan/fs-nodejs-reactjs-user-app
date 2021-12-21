@@ -20,7 +20,7 @@ router.get("/all", async (req, res) => {
 router.get("/", async (req, res) => {
   const re = new RegExp(`${req.query.name}`, "i");
   // const user = await User.find({ name: re }).exec();
-  const user = await User.find({ $or: [{ name: re }, { username: re }] }).exec();
+  const user = await User.find({ $or: [{ name: re }, { username: re }, { email: re }] }).exec();
 
   res.send(user);
 

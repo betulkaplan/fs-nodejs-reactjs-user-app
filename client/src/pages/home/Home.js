@@ -57,9 +57,14 @@ function App() {
               style={{
                 display: "flex",
                 justifyContent: "space-around",
+                margin: "10px",
               }}
             >
-              <p style={{ width: "200px" }}>{user.name}</p>
+              <div style={{ lineHeight: "0.3rem" }}>
+                <p style={{ width: "200px" }}>{user.name}</p>
+                <p style={{ width: "200px", fontSize: "0.7rem", color: "gray" }}>@{user.username}</p>
+              </div>
+              <p style={{ width: "200px", fontStyle: "italic" }}>{user.email}</p>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Button
                   type="primary"
