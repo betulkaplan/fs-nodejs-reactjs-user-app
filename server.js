@@ -1,6 +1,9 @@
 const express = require("express");
 const handleCorsPolicy = require("./utils/cors");
 const mongoose = require('mongoose')
+const userRouter = require("./routes/users");
+const homeRouter = require("./routes/home");
+const authRouter = require("./routes/auth");
 require('dotenv').config()
 
 const port = process.env.HOST_PORT || 5000
@@ -15,12 +18,12 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   })
   .catch((err) => console.log(err))
 
-const userRouter = require("./routes/users");
-const homeRouter = require("./routes/home");
+
 const app = express();
 
 app.use(express.json());
 app.use(handleCorsPolicy);
 
 app.use("/users", userRouter);
+app.use("/auth", authRouter);
 app.use("/", homeRouter);
