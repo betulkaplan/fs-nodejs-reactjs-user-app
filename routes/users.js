@@ -26,15 +26,9 @@ router.get("/", async (req, res) => {
 
 });
 
-router.delete("/", (req, res) => {
-  var filtered = users.filter(function (user, index, arr) {
-    return user.id != req.query.id;
-  });
+router.delete("/", async (req, res) => {
 
-  fs.writeFile("users.json", JSON.stringify(filtered), function writeJSON(err) {
-    if (err) return console.log(err);
-    console.log("writing to  users");
-  });
+  await User.findByIdAndDelete(req.query.id)
   res.send({
     message: "User Deleted Succesfully!",
   });
