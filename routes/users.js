@@ -61,7 +61,7 @@ router.post("/", (req, res) => {
 
   user.save()
     .then((result) => {
-      res.send(result)
+      res.send({ result: result, message: "User Added Succesfully!" })
     })
     .catch((err) => {
       console.log(err)

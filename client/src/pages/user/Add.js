@@ -3,6 +3,7 @@ import 'antd/dist/antd.css';
 import { Form, Input, InputNumber, Button } from 'antd';
 import style from './addUser.module.css';
 import { useNavigate } from 'react-router-dom';
+import { SuccessNotification } from '../../helpers/Notifications';
 
 const layout = {
     labelCol: {
@@ -40,6 +41,7 @@ const Add = () => {
             body: JSON.stringify(values['user']),
         });
         const response = await res.json();
+        SuccessNotification({ description: response.message });
         navigate("/")
         console.log(response);
 

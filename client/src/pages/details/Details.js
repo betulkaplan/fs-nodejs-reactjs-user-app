@@ -7,6 +7,7 @@ import {
   DingtalkOutlined,
   MailOutlined,
 } from "@ant-design/icons";
+import { ErrorNotification, SuccessNotification } from "../../helpers/Notifications";
 
 const Details = () => {
   let { id } = useParams();
@@ -27,11 +28,16 @@ const Details = () => {
   }, []);
 
   const handleDeleteClick = async () => {
-    const res = await fetch(`http://localhost:5000/users?id=${id}`, {
-      method: "DELETE",
-    });
-    const response = await res.json();
-    navigate(`/`);
+    try {
+      const res = await fetch(`http://localhost:5000/users?id=${id}`, {
+        method: "DELETE",
+      });
+      const response = await res.json();
+      SuccessNotification({ description: response.message });
+      navigate(`/`);
+    } catch (error) {
+      ErrorNotification({ description: error.message })
+    }
   };
 
   const handleEditClick = async () => {
@@ -40,7 +46,6 @@ const Details = () => {
   };
   const handleOk = () => {
     setIsModalVisible(false);
-    console.log(newUser);
 
     const requestOptions = {
       method: "PUT",
@@ -49,7 +54,12 @@ const Details = () => {
     };
     fetch(`http://localhost:5000/users/${id}`, requestOptions)
       .then((response) => response.json())
-      .then((data) => navigate(`/`));
+      .then((data) => {
+        SuccessNotification({
+          description: "User was updated successfully",
+        });
+        navigate(`/`)
+      });
   };
 
   const handleCancel = () => {
