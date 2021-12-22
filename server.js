@@ -6,7 +6,7 @@ require('dotenv').config()
 const port = process.env.HOST_PORT || 5000
 
 //connect to mongoDB
-const dbURI = 'mongodb+srv://beth:betkap94@cluster0.amewz.mongodb.net/user-app?retryWrites=true&w=majority'
+const dbURI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.amewz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
     app.listen(port, () => {
