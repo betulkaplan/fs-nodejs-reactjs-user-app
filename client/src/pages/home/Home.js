@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button, Input, Divider } from "antd";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
 import style from "./home.module.css"
 
 function App() {
+  const defaultSearch = useRef()
   const [users, setUsers] = useState();
   const [input, setInput] = useState("");
   let navigate = useNavigate();
+
+  useEffect(() => {
+    defaultSearch.current.focus();
+
+  }, [])
 
   const fetchUsers = async (inp) => {
     const res = await fetch(`http://localhost:5000/users?name=${inp}`);
@@ -35,6 +41,7 @@ function App() {
       <div className={style.topControl}>
         <h2>User App</h2>
         <Input
+          ref={defaultSearch}
           className={style.topinput}
           type="text"
           onChange={handleInputChange}
