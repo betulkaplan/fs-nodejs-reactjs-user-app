@@ -4,8 +4,10 @@ import { Form, Input, Button, Checkbox, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import style from './Login.module.css';
 import { ErrorNotification, SuccessNotification } from "../../helpers/Notifications";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    let navigate = useNavigate();
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
         try {
@@ -20,8 +22,7 @@ const Login = () => {
             console.log(res.ok);
             console.log(response.message);
             res.ok ? SuccessNotification({ description: response.message }) : ErrorNotification({ description: response.message });
-            // SuccessNotification({ description: response.message });
-            // navigate("/")
+            navigate("/")
         } catch (error) {
             ErrorNotification({ description: error.message })
         }
