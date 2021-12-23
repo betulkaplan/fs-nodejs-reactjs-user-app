@@ -21,8 +21,11 @@ const Login = () => {
             const response = await res.json();
             console.log(res.ok);
             console.log(response.message);
-            res.ok ? SuccessNotification({ description: response.message }) : ErrorNotification({ description: response.message });
-            navigate("/")
+            if (res.ok) {
+                SuccessNotification({ description: response.message });
+                navigate("/");
+            }
+            else ErrorNotification({ description: response.message });
         } catch (error) {
             ErrorNotification({ description: error.message })
         }
