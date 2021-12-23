@@ -12,7 +12,7 @@ router.post("/register", async (req, res) => {
 
     // Validate user input
     if (!(email && password && first_name && last_name)) {
-      res.status(400).send("All input is required");
+      res.status(400).send({ message: "All input is required" });
     }
 
     // check if user already exist
@@ -20,7 +20,9 @@ router.post("/register", async (req, res) => {
     const oldUser = await Auth.findOne({ email });
 
     if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
+      return res
+        .status(409)
+        .send({ message: "User Already Exist. Please Login!" });
     }
 
     //Encrypt user password
@@ -30,7 +32,7 @@ router.post("/register", async (req, res) => {
     const user = await Auth.create({
       first_name,
       last_name,
-      email: email.toLowerCase(), // sanitize: convert email to lowercase
+      email: email?.toLowerCase(), // sanitize: convert email to lowercase
       password: encryptedPassword,
     });
 
@@ -47,7 +49,7 @@ router.post("/register", async (req, res) => {
     user.password = undefined;
     user.__v = undefined;
 
-    res.status(201).json(user);
+    res.status(201).json({ user, message: "Registered Successfully!" });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -56,9 +58,43 @@ router.post("/register", async (req, res) => {
 });
 
 // Login
-router.post("/login", (req, res) => {
-  // our login logic goes here
-  res.send("Login");
+router.post("/login", async (req, res) => {
+  // Our login logic starts here
+  try {
+    // Get user input
+    const { email, password } = req.body;
+
+    // Validate user input
+    if (!(email && password)) {
+      res.status(400).send({ message: "All input is required" });
+    }
+    // Validate if user exist in our database
+    const user = await Auth.findOne({ email });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      // Create token
+      const token = jwt.sign(
+        { user_id: user._id, email },
+        process.env.JWT_SECRET_KEY,
+        {
+          expiresIn: "2h",
+        }
+      );
+
+      // save user token
+      user.token = token;
+      user.password = undefined;
+      user.__v = undefined;
+
+      // user
+      res.status(200).json({ user, message: "Logged in Successfully!" });
+    } else {
+      res.status(400).send({ message: "Invalid Credentials" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  // Our register logic ends here
 });
 
 module.exports = router;
