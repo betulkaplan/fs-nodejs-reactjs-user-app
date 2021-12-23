@@ -66,10 +66,14 @@ router.post("/login", async (req, res) => {
 
     // Validate user input
     if (!(email && password)) {
-      res.status(400).send({ message: "All input is required" });
+      return res.status(400).send({ message: "All input is required" });
     }
     // Validate if user exist in our database
     const user = await Auth.findOne({ email });
+    if (!user)
+      return res
+        .status(404)
+        .send({ message: "User not found! Please register!" });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
