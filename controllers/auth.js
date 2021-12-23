@@ -2,6 +2,20 @@ const Auth = require("../models/auth");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+function validatePassword(password) {
+    errors = '';
+    if (password.length < 8) {
+        return { errors: "Your password must be at least 8 characters", check: false };
+    }
+    else if (password.search(/[a-z]/i) < 0) {
+        return { errors: "Your password must contain at least one letter.", check: false };
+    }
+    else if (password.search(/[0-9]/) < 0) {
+        return { errors: "Your password must contain at least one digit.", check: false };
+    }
+    return { check: true };
+}
+
 const register = async (req, res) => {
     // Our register logic starts here
     try {
@@ -10,7 +24,11 @@ const register = async (req, res) => {
 
         // Validate user input
         if (!(email && password && first_name && last_name)) {
-            res.status(400).send({ message: "All input is required" });
+            return res.status(400).send({ message: "All input is required" });
+        }
+
+        if (validatePassword(password).check === false) {
+            return res.status(400).send({ message: validatePassword(password).errors });
         }
 
         // check if user already exist
