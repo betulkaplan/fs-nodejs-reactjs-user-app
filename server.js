@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const userRouter = require("./routes/users");
 const homeRouter = require("./routes/home");
 const authRouter = require("./routes/auth");
+const productRouter = require("./routes/product");
 require('dotenv').config()
 
 const port = process.env.HOST_PORT || 5000
@@ -27,3 +28,4 @@ app.use(handleCorsPolicy);
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
 app.use("/", homeRouter);
+app.use("/product", productRouter);
