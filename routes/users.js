@@ -3,8 +3,6 @@ const router = express.Router();
 const fs = require("fs");
 const User = require('../models/user')
 
-const users = require("../users.json");
-
 router.get("/all", async (req, res) => {
 
   User.find()

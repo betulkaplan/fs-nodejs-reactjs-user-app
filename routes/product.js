@@ -13,6 +13,13 @@ router.get("/all", async (req, res) => {
         })
 })
 
+router.get("/", async (req, res) => {
+    const re = new RegExp(`${req.query.name}`, "i");
+    const product = await Product.find({ $or: [{ title: re }, { description: re }] }).exec();
+    res.send(product);
+
+});
+
 
 router.post("/", (req, res) => {
     const product = new Product({
