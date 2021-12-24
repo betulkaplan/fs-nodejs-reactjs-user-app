@@ -3,15 +3,19 @@ import { Button, Input, Divider } from "antd";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
 import style from "./home.module.css"
+import ProductCard from "../../components/ProductCard";
 
 function App() {
-  const defaultSearch = useRef()
+  const userSearch = useRef()
+  const productSearch = useRef()
   const [users, setUsers] = useState();
+  const [products, setProducts] = useState();
   const [input, setInput] = useState("");
+  const [productInput, setProductInput] = useState("");
   let navigate = useNavigate();
 
   useEffect(() => {
-    defaultSearch.current.focus();
+    userSearch.current.focus();
 
   }, [])
 
@@ -21,10 +25,28 @@ function App() {
     setUsers(response);
   };
 
+  const fetchProducts = async (inp) => {
+    // const res = await fetch(`http://localhost:5000/users?name=${inp}`);
+    const res = await fetch(`http://localhost:5000/product?name=${inp}`);
+    const response = await res.json();
+    console.log(response)
+    setProducts(response);
+  };
+
   const handleInputChange = (event) => {
-    setInput(event.target.value);
-    if (event.target.value) fetchUsers(event.target.value);
-    else setUsers();
+    console.log(event.target.id);
+    if (event.target.id === "userSearch") {
+      setInput(event.target.value);
+      if (event.target.value) fetchUsers(event.target.value);
+      else setUsers();
+    }
+    else if (event.target.id === "productSearch") {
+      setProductInput(event.target.value);
+      if (event.target.value) fetchProducts(event.target.value);
+      else setProducts();
+    }
+
+
   };
 
   const handleDetailClick = async (id) => {
@@ -41,12 +63,22 @@ function App() {
       <div className={style.topControl}>
         <h2>User App</h2>
         <Input
-          ref={defaultSearch}
+          ref={userSearch}
           className={style.topinput}
           type="text"
           onChange={handleInputChange}
           value={input}
-          placeholder="name"
+          placeholder="Search User"
+          id="userSearch"
+        />
+        <Input
+          ref={productSearch}
+          className={style.topinput}
+          type="text"
+          onChange={handleInputChange}
+          value={productInput}
+          placeholder="Search Product"
+          id="productSearch"
         />
         <Button
           className={style.topButton}
@@ -55,7 +87,7 @@ function App() {
         >Add New User</Button>
       </div>
       <div>
-        {users && <Divider>Result</Divider>}
+        {(users || products) && <Divider>Result</Divider>}
         {users &&
           users.map((user) => (
             <div
@@ -82,6 +114,16 @@ function App() {
             </div>
           ))}
       </div>
+      {
+        products?.map(product =>
+          <>
+            <ProductCard product={product} />
+          </>
+        )
+      }
+
+
+
     </div>
   );
 }
