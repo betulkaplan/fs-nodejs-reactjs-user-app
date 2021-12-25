@@ -1,26 +1,27 @@
 import React from 'react'
 import style from './ProductCard.module.css'
 import 'antd/dist/antd.css';
+import { useNavigate } from 'react-router-dom'
 import { Card, Avatar } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
+    let navigate = useNavigate()
     return (
-        <div>
+        <div className={style.container}>
             <Card
                 style={{ width: 300 }}
                 cover={
                     <img
                         alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        src={product.image ? product.image : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"}
                     />
                 }
                 actions={[
-                    <SettingOutlined key="setting" />,
-                    <EditOutlined key="edit" />,
-                    <EllipsisOutlined key="ellipsis" />,
+                    <div onClick={() => navigate(`/product/${product._id}`)}>
+                        Details
+                    </div>
                 ]}
             >
                 <Meta

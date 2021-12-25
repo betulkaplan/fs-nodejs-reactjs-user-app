@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Button, Input, Divider } from "antd";
+import { Button, Input, Divider, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
 import style from "./home.module.css"
@@ -12,6 +12,7 @@ function App() {
   const [products, setProducts] = useState();
   const [input, setInput] = useState("");
   const [productInput, setProductInput] = useState("");
+  const [isProductModalVisible, setIsProductModalVisible] = useState(false);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -57,6 +58,20 @@ function App() {
   const addNewUser = () => {
     navigate("/add");
   }
+  const addProductUser = () => {
+    navigate("/product/add");
+  }
+  const showModal = () => {
+    setIsProductModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsProductModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsProductModalVisible(false);
+  };
 
   return (
     <div className="App">
@@ -85,6 +100,16 @@ function App() {
           type="primary"
           onClick={addNewUser}
         >Add New User</Button>
+        <Button
+          className={style.topButton}
+          type="primary"
+          onClick={addProductUser}
+        >Add New Product</Button>
+        <Modal title="Basic Modal" visible={isProductModalVisible} onOk={handleOk} onCancel={handleCancel}>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
       </div>
       <div>
         {(users || products) && <Divider>Result</Divider>}
@@ -114,13 +139,14 @@ function App() {
             </div>
           ))}
       </div>
-      {
-        products?.map(product =>
-          <>
-            <ProductCard product={product} />
-          </>
-        )
-      }
+      <div className={style.productsWrapper}>
+        {
+          products?.map(product =>
+            <ProductCard key={product._id} product={product} />
+          )
+        }
+      </div>
+
 
 
 

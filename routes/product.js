@@ -20,6 +20,33 @@ router.get("/", async (req, res) => {
 
 });
 
+router.delete("/:id", async (req, res) => {
+
+    await Product.findByIdAndDelete(req.params.id)
+    res.send({
+        message: "Product Deleted Succesfully!",
+    });
+});
+
+router.get("/:id", async (req, res) => {
+    const product = await Product.findById(req.params.id).exec();
+
+    res.send([product]);
+
+});
+
+// router.put("/:id", async (req, res) => {
+
+//     const filter = { _id: req.params.id };
+//     const update = req.body;
+
+//     let doc = await User.findOneAndUpdate(filter, update);
+//     res.send({
+//         message: "User Updated Succesfully!"
+//     });
+
+// });
+
 
 router.post("/", (req, res) => {
     const product = new Product({
@@ -33,7 +60,7 @@ router.post("/", (req, res) => {
 
     product.save()
         .then((result) => {
-            res.send("Product Added Succesfully!");
+            res.send({ message: "Product Added Succesfully!" });
         })
         .catch((err) => {
             res.send(err);
