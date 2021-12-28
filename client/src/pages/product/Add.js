@@ -33,6 +33,14 @@ const Add = () => {
         const formData = new FormData();
         formData.append('file', image);
 
+        console.log(values)
+
+        Object.keys(values).forEach(key => {
+            if (typeof values[key] !== 'object') formData.append(key, values[key])
+            else formData.append(key, JSON.stringify(values[key]))
+        })
+
+
         const options = {
             method: 'POST',
             body: formData,

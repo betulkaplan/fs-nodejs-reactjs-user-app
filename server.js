@@ -5,6 +5,7 @@ const userRouter = require("./routes/users");
 const homeRouter = require("./routes/home");
 const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
+const Product = require("./models/product");
 
 //traversy media
 const path = require("path");
@@ -73,7 +74,27 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 app.post('/upload', upload.single('file'), (req, res) => {
-  res.json({ file: req.file });
+
+  const product = new Product({
+    title: req.body.title,
+    price: req.body.price,
+    category: req.body.category,
+    description: req.body.description,
+    image: req.file.filename,
+    others: req.body.others
+  })
+
+  product.save()
+    .then((result) => {
+      res.send({ message: "Product Added Succesfully!" });
+    })
+    .catch((err) => {
+      res.send(err);
+    })
+
+  console.log(req.file)
+  console.log(req.body.title)
+  // res.json({ file: req.file });
 })
 
 //display all files
