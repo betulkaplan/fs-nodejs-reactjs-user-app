@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import style from './Add.module.css';
 import { categories } from '../../helpers/constants'
@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom';
 const Add = () => {
 
     let navigate = useNavigate();
-    const fileref = useRef()
     const [image, setImage] = useState()
 
     const normFile = (e) => {
@@ -32,13 +31,7 @@ const Add = () => {
         return e && e.fileList;
     };
     const onFinish = async values => {
-        console.log('Success:', values);
-
-        console.log(fileref.current.files[0])
-        console.log(image)
         const formData = new FormData();
-
-        // formData.append('file', fileref.current.files[0]);
         formData.append('file', image);
 
         const options = {
@@ -96,21 +89,19 @@ const Add = () => {
                 <Form.Item name='image' label="Image URL">
                     <Input />
                 </Form.Item>
-                {/* <Form.Item
-                    name="upload"
+                <Form.Item
                     label="Product Images"
-                    valuePropName="fileList"
-                    getValueFromEvent={normFile}
+                // name="upload"
+                // valuePropName="fileList"
+                // getValueFromEvent={normFile}
                 >
-                    <Upload name="logo" multiple={true} listType="picture" onChange={(e) => console.log(e)} >
+                    <Upload beforeUpload={() => false} name="logo" multiple={true} listType="picture"
+                        onChange={(e) => {
+                            setImage(e.fileList[0].originFileObj)
+                        }} >
                         <Button icon={<UploadOutlined />}>Click to upload</Button>
                     </Upload>
-                </Form.Item> */}
-                <input ref={fileref} type="file" onChange={(e) => {
-                    console.log(fileref.current.files[0])
-                    console.log(e.target.files[0])
-                    setImage(fileref.current.files[0])
-                }} />
+                </Form.Item>
                 <div className={style.submitButton}>
                     <Button type="primary" htmlType="submit">Add</Button>
 
