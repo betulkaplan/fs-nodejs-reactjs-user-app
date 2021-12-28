@@ -12,13 +12,12 @@ import {
     Upload
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { SuccessNotification } from '../../helpers/Notifications';
 import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
 
     let navigate = useNavigate();
-    const fileref = useRef()
+    const [fileRef, setFileRef] = useState()
 
     const normFile = (e) => {
         console.log('Upload event:', e);
@@ -31,11 +30,11 @@ const Add = () => {
         return e && e.fileList;
     };
     const onFinish = async values => {
-        console.log('Success:', values);
+        // console.log('Success:', values);
 
-        console.log(fileref.current.files[0])
+        console.log(fileRef)
         const formData = new FormData();
-        formData.append('file', fileref.current.files[0]);
+        formData.append('file', fileRef);
 
         const options = {
             method: 'POST',
@@ -92,17 +91,19 @@ const Add = () => {
                 <Form.Item name='image' label="Image URL">
                     <Input />
                 </Form.Item>
-                {/* <Form.Item
-                    name="upload"
+                <Form.Item
                     label="Product Images"
-                    valuePropName="fileList"
-                    getValueFromEvent={normFile}
+                // name="upload"
+                // valuePropName="fileList"
+                // getValueFromEvent={normFile}
                 >
-                    <Upload name="logo" multiple={true} listType="picture" onChange={(e) => console.log(e)} >
+                    <Upload multiple={true} beforeUpload={() => false} onChange={(e) => {
+                        console.log(e.fileList[0])
+                        setFileRef(e.fileList[0])
+                    }} >
                         <Button icon={<UploadOutlined />}>Click to upload</Button>
                     </Upload>
-                </Form.Item> */}
-                <input ref={fileref} type="file" onChange={(e) => console.log(e.target.files[0])} />
+                </Form.Item>
                 <div className={style.submitButton}>
                     <Button type="primary" htmlType="submit">Add</Button>
 
