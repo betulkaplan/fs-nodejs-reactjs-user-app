@@ -73,7 +73,7 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 app.post('/upload', upload.single('file'), (req, res) => {
-  // res.json({ file: req.file });
+  res.json({ file: req.file });
 })
 
 //display all files
