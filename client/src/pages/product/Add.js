@@ -19,6 +19,7 @@ const Add = () => {
 
     let navigate = useNavigate();
     const fileref = useRef()
+    const [image, setImage] = useState()
 
     const normFile = (e) => {
         console.log('Upload event:', e);
@@ -34,8 +35,11 @@ const Add = () => {
         console.log('Success:', values);
 
         console.log(fileref.current.files[0])
+        console.log(image)
         const formData = new FormData();
-        formData.append('file', fileref.current.files[0]);
+
+        // formData.append('file', fileref.current.files[0]);
+        formData.append('file', image);
 
         const options = {
             method: 'POST',
@@ -102,7 +106,11 @@ const Add = () => {
                         <Button icon={<UploadOutlined />}>Click to upload</Button>
                     </Upload>
                 </Form.Item> */}
-                <input ref={fileref} type="file" onChange={(e) => console.log(e.target.files[0])} />
+                <input ref={fileref} type="file" onChange={(e) => {
+                    console.log(fileref.current.files[0])
+                    console.log(e.target.files[0])
+                    setImage(fileref.current.files[0])
+                }} />
                 <div className={style.submitButton}>
                     <Button type="primary" htmlType="submit">Add</Button>
 
