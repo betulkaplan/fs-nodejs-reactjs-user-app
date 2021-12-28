@@ -12,13 +12,16 @@ import {
     Upload
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { SuccessNotification } from '../../helpers/Notifications';
 import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
 
     let navigate = useNavigate();
+<<<<<<< HEAD
     const [image, setImage] = useState()
+=======
+    const [fileRef, setFileRef] = useState()
+>>>>>>> 02cdf7724a696b974a77e962aa51e0cffe92846b
 
     const normFile = (e) => {
         console.log('Upload event:', e);
@@ -31,8 +34,16 @@ const Add = () => {
         return e && e.fileList;
     };
     const onFinish = async values => {
+<<<<<<< HEAD
         const formData = new FormData();
         formData.append('file', image);
+=======
+        // console.log('Success:', values);
+
+        console.log(fileRef)
+        const formData = new FormData();
+        formData.append('file', fileRef);
+>>>>>>> 02cdf7724a696b974a77e962aa51e0cffe92846b
 
         const options = {
             method: 'POST',
@@ -95,10 +106,17 @@ const Add = () => {
                 // valuePropName="fileList"
                 // getValueFromEvent={normFile}
                 >
+<<<<<<< HEAD
                     <Upload beforeUpload={() => false} name="logo" multiple={true} listType="picture"
                         onChange={(e) => {
                             setImage(e.fileList[0].originFileObj)
                         }} >
+=======
+                    <Upload multiple={true} beforeUpload={() => false} onChange={(e) => {
+                        console.log(e.fileList[0])
+                        setFileRef(e.fileList[0])
+                    }} >
+>>>>>>> 02cdf7724a696b974a77e962aa51e0cffe92846b
                         <Button icon={<UploadOutlined />}>Click to upload</Button>
                     </Upload>
                 </Form.Item>
