@@ -16,7 +16,7 @@ function App() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    userSearch.current.focus();
+    productSearch.current.focus();
 
   }, [])
 
@@ -77,7 +77,7 @@ function App() {
     <div className="App">
       <div className={style.topControl}>
         <h2>User App</h2>
-        <Input
+        {/* <Input
           ref={userSearch}
           className={style.topinput}
           type="text"
@@ -85,7 +85,7 @@ function App() {
           value={input}
           placeholder="Search User"
           id="userSearch"
-        />
+        /> */}
         <Input
           ref={productSearch}
           className={style.topinput}
@@ -95,11 +95,11 @@ function App() {
           placeholder="Search Product"
           id="productSearch"
         />
-        <Button
+        {/* <Button
           className={style.topButton}
           type="primary"
           onClick={addNewUser}
-        >Add New User</Button>
+        >Add New User</Button> */}
         <Button
           className={style.topButton}
           type="primary"

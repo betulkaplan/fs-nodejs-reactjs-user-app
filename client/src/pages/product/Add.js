@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { SuccessNotification } from '../../helpers/Notifications';
 
 const Add = () => {
 
@@ -45,9 +46,13 @@ const Add = () => {
             method: 'POST',
             body: formData,
         };
-        fetch('http://localhost:5000/upload', options).then(res => res.json()).then(data => {
-            console.log(data)
-        })
+        const res = await fetch('http://localhost:5000/upload', options)
+        const response = await res.json()
+        console.log(response)
+
+        SuccessNotification({ description: response.message });
+        navigate("/")
+
 
         // const res = await fetch(`http://localhost:5000/product`, {
         //     method: 'POST',
@@ -59,8 +64,6 @@ const Add = () => {
         // });
         // const response = await res.json();
         // SuccessNotification({ description: response.message });
-        // // navigate("/")
-        // console.log(response);
 
     };
 
@@ -92,9 +95,6 @@ const Add = () => {
                 </Form.Item>
                 <Form.Item name='description' label="Description">
                     <Input.TextArea />
-                </Form.Item>
-                <Form.Item name='image' label="Image URL">
-                    <Input />
                 </Form.Item>
                 <Form.Item
                     label="Product Images"
