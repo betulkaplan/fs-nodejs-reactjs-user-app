@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
                 cover={
                     <img
                         alt="example"
-                        src={product.image ? `http://localhost:5000/image/${product.image}` : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"}
+                        src={product.image ? product.image : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"}
                     />
                 }
                 actions={[
