@@ -121,7 +121,6 @@ app.get("/image/:filename", (req, res) => {
     //check if image
     if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
       //read output to browser
-      console.log('breakpoint')
       const readstream = gfs.createReadStream(file.filename);
       readstream.pipe(res);
     } else {
