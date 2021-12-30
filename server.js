@@ -40,7 +40,7 @@ const app = express();
 //middleware
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
-// app.use(express.json());
+app.use(express.json());
 app.use(handleCorsPolicy);
 
 const conn = mongoose.connection;
@@ -131,10 +131,6 @@ app.get("/image/:filename", (req, res) => {
     }
   });
 });
-
-
-
-
 
 
 app.use("/users", userRouter);

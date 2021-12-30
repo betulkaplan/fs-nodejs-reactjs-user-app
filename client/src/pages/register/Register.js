@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
 import style from "./Register.module.css";
+import { useCookies } from 'react-cookie';
 import {
     Form,
     Input,
@@ -49,6 +50,7 @@ const tailFormItemLayout = {
 
 const Register = () => {
     const [form] = Form.useForm();
+    const [cookies, setCookie] = useCookies(['name']);
     let navigate = useNavigate();
 
     const onFinish = async (values) => {
@@ -61,7 +63,8 @@ const Register = () => {
                 body: JSON.stringify(values),
             });
             const response = await res.json();
-            console.log(response.message);
+            console.log(response);
+            setCookie('jwt', response.user.token, { path: '/' });
             SuccessNotification({ description: response.message });
             navigate("/")
         } catch (error) {

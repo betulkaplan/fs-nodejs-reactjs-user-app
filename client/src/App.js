@@ -1,12 +1,13 @@
 import React from "react";
-import Navbar from "./components/Navbar";
 import AppRouter from "./router/AppRouter";
+import { CookiesProvider } from 'react-cookie';
 
 const App = () => {
   return (
     <div>
-      <Navbar />
-      <AppRouter />
+      <CookiesProvider>
+        <AppRouter />
+      </CookiesProvider>
     </div>
   );
 };

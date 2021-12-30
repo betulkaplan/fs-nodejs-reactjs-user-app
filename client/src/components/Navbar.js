@@ -1,13 +1,17 @@
 import React from 'react'
 import style from './styles/Navbar.module.css'
 import logo from '../assets/logo.svg'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+
+    const navigate = useNavigate()
 
     const handleLogin = () => {
         console.log('handleLogin')
     }
     const handleRegister = () => {
+        navigate('/register')
         console.log('handleRegister')
     }
 
@@ -15,7 +19,7 @@ const Navbar = () => {
         <div className={style.wrapper}>
             <div className={style.container}>
                 <div className={style.leftSide}>
-                    <img src={logo} alt="" srcset="" />
+                    <img src={logo} alt="" />
                 </div>
                 <div className={style.rightSide}>
                     <ul>
