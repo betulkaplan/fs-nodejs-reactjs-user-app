@@ -8,6 +8,7 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const handleLogin = () => {
+        navigate('/login')
         console.log('handleLogin')
     }
     const handleRegister = () => {
