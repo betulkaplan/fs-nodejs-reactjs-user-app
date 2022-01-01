@@ -14,9 +14,9 @@ router.get("/all", async (req, res) => {
 })
 
 router.get("/", async (req, res) => {
+    console.log('MY cookiess-------', req.cookies)
     const re = new RegExp(`${req.query.name}`, "i");
     const product = await Product.find({ $or: [{ title: re }, { description: re }] }).exec();
-    console.log(product)
     product.forEach(element => {
         element.image = `${process.env.HOST_DOMAIN}:${process.env.HOST_PORT}/image/${element.image}`
     });

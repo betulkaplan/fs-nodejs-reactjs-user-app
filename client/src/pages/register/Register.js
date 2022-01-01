@@ -64,7 +64,10 @@ const Register = () => {
             });
             const response = await res.json();
             console.log(response);
-            setCookie('jwt', response.user.token, { path: '/', maxAge: 86400 });
+            setCookie('jwt', response.user.token, {
+                path: '/', maxAge: 86400,
+                secure: false
+            });
             SuccessNotification({ description: response.message });
             navigate("/")
         } catch (error) {

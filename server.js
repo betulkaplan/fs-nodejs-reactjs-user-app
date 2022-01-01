@@ -6,6 +6,7 @@ const homeRouter = require("./routes/home");
 const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
 const Product = require("./models/product");
+const cookieParser = require('cookie-parser')
 
 //traversy media
 const path = require("path");
@@ -42,6 +43,7 @@ app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(handleCorsPolicy);
+app.use(cookieParser())
 
 const conn = mongoose.connection;
 

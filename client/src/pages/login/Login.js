@@ -25,7 +25,10 @@ const Login = () => {
             const response = await res.json();
             console.log(res.ok);
             console.log(response.message);
-            setCookie('jwt', response.user.token, { path: '/', maxAge: 86400 });
+            setCookie('jwt', response.user.token, {
+                path: '/', maxAge: 86400,
+                secure: false
+            });
             if (res.ok) {
                 SuccessNotification({ description: response.message });
                 navigate("/");
