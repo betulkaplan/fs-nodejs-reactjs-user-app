@@ -120,14 +120,14 @@ const checkLogin = async (req, res) => {
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decodedToken, next) => {
             if (err) {
-                res.send("Please login to view this page")
+                res.status(400).send({message: "Please login to view this page"})
             } else {
                 res.send(decodedToken);
                 next()
             }
         })
     } else {
-        res.send("Please login to view this page")
+        res.status(400).send({message: "Please login to view this page"})
     }
 
 }
