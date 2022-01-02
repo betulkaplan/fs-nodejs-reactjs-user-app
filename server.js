@@ -6,6 +6,7 @@ const homeRouter = require("./routes/home");
 const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
 const Product = require("./models/product");
+const cookieParser = require('cookie-parser')
 
 //traversy media
 const path = require("path");
@@ -40,8 +41,9 @@ const app = express();
 //middleware
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
-// app.use(express.json());
+app.use(express.json());
 app.use(handleCorsPolicy);
+app.use(cookieParser())
 
 const conn = mongoose.connection;
 
@@ -121,7 +123,6 @@ app.get("/image/:filename", (req, res) => {
     //check if image
     if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
       //read output to browser
-      console.log('breakpoint')
       const readstream = gfs.createReadStream(file.filename);
       readstream.pipe(res);
     } else {
@@ -131,10 +132,6 @@ app.get("/image/:filename", (req, res) => {
     }
   });
 });
-
-
-
-
 
 
 app.use("/users", userRouter);

@@ -5,9 +5,16 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import style from './Login.module.css';
 import { ErrorNotification, SuccessNotification } from "../../helpers/Notifications";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
+import { useAuth } from '../../contexts/AuthContext';
+
 
 const Login = () => {
     let navigate = useNavigate();
+    const [cookies, setCookie] = useCookies(['name']);
+
+    const { name, user, thefunction } = useAuth();
+
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
         try {
@@ -21,6 +28,10 @@ const Login = () => {
             const response = await res.json();
             console.log(res.ok);
             console.log(response.message);
+            setCookie('jwt', response.user.token, {
+                path: '/', maxAge: 86400,
+                secure: false
+            });
             if (res.ok) {
                 SuccessNotification({ description: response.message });
                 navigate("/");

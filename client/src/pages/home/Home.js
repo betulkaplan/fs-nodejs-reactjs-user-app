@@ -28,7 +28,12 @@ function App() {
 
   const fetchProducts = async (inp) => {
     // const res = await fetch(`http://localhost:5000/users?name=${inp}`);
-    const res = await fetch(`http://localhost:5000/product?name=${inp}`);
+    const res = await fetch(`http://localhost:5000/product?name=${inp}`
+      ,
+      {
+        credentials: 'include'
+      }
+    );
     const response = await res.json();
     console.log(response)
     setProducts(response);
