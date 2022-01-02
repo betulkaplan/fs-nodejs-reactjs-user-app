@@ -4,26 +4,36 @@ import { useNavigate } from "react-router-dom";
 import "../../App.css";
 import style from "./home.module.css"
 import ProductCard from "../../components/ProductCard";
+import { useAuth } from '../../contexts/AuthContext';
 
 function App() {
   const productSearch = useRef()
   const [products, setProducts] = useState();
   const [productInput, setProductInput] = useState("");
   const [isProductModalVisible, setIsProductModalVisible] = useState(false);
+  const { name, user, setUser } = useAuth();
   let navigate = useNavigate();
 
   useEffect(() => {
-    productSearch.current.focus();
+    productSearch.current?.focus();
 
   }, [])
 
   const fetchProducts = async (inp) => {
-    const res = await fetch(`http://localhost:5000/product?name=${inp}`
-      ,
-      {
-        credentials: 'include'
-      }
-    );
+    const res = await fetch(`./fr.json`, {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }, 
+       credentials: 'include'
+
+    })
+    // const res = await fetch(`http://localhost:5000/product?name=${inp}`
+    //   ,
+    //   {
+    //     credentials: 'include'
+    //   }
+    // );
     const response = await res.json();
     console.log(response)
     setProducts(response);
@@ -37,13 +47,11 @@ function App() {
       else setProducts();
     }
 
-
   };
 
   const addProduct = () => {
     navigate("/product/add");
   }
-
 
   const handleOk = () => {
     setIsProductModalVisible(false);
@@ -55,7 +63,9 @@ function App() {
 
   return (
     <div className="App">
-      <div className={style.topControl}>
+      {user ? 
+      <div>
+        <div className={style.topControl}>
         <h2>User App</h2>
         <Input
           ref={productSearch}
@@ -84,9 +94,9 @@ function App() {
         {
           products?.map(product =>
             <ProductCard key={product._id} product={product} />
-          )
+          ) 
         }
-      </div>
+      </div> </div> : <h1>Please Login</h1>}
 
 
 

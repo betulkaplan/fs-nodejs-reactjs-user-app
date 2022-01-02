@@ -8,7 +8,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState('Dummy user');
+    const [user, setUser] = useState();
     const [cookies] = useCookies();
     const value = {
         name: 'betul',
@@ -17,15 +17,25 @@ export function AuthProvider({ children }) {
     };
 
     useEffect(() => {
-        fetch('http://localhost:5000/auth/checkLogin',
-            {
-                credentials: 'include'
-            }).then(res => res.json()).then(res => {
-                console.log('useEffect of context checkLogin', res);
-                setUser(res);
-            }).catch(err => {
-                console.log('useEffect of context', err);
-            });
+        try {
+            fetch('http://localhost:5000/auth/checkLogin',
+                {
+                    headers : { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                       }, 
+                       credentials: 'include'
+                }).then(res => res.json()).then(res => {
+                    console.log('useEffect of context checkLogin', res);
+                    setUser(res);
+                }).catch(err => {
+                    console.log('useEffect of context', err);
+                });
+            
+        } catch (error) {
+            console.log('useEffect of context222', error);
+            
+        }
     }, []);
 
     return (
