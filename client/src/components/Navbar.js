@@ -51,7 +51,7 @@ const Navbar = () => {
                         {
                             user?.email ?
                                 <>
-                                    <li>{user.email}</li>
+                                    <li>{user.first_name} {user.last_name}</li>
                                     <li onClick={handleLogout}>Logout</li>
                                 </>
                                 :

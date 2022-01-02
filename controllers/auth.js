@@ -93,7 +93,7 @@ const login = async (req, res) => {
         if (user && (await bcrypt.compare(password, user.password))) {
             // Create token
             const token = jwt.sign(
-                { user_id: user._id, email },
+                { user_id: user._id, email, first_name: user.first_name, last_name: user.last_name },
                 process.env.JWT_SECRET_KEY,
                 {
                     expiresIn: "2h",
