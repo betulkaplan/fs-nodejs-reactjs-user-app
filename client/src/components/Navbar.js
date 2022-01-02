@@ -2,13 +2,20 @@ import React from 'react'
 import style from './styles/Navbar.module.css'
 import logo from '../assets/logo.svg'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
+
+    const { name, user, setUser } = useAuth();
 
     const navigate = useNavigate()
 
     const handleLogin = () => {
         navigate('/login')
+        console.log('handleLogin')
+    }
+    const handleLogout = () => {
+        navigate('/')
         console.log('handleLogin')
     }
     const handleRegister = () => {
@@ -24,8 +31,18 @@ const Navbar = () => {
                 </div>
                 <div className={style.rightSide}>
                     <ul>
-                        <li onClick={handleLogin}>Login</li>
-                        <li onClick={handleRegister}>Register</li>
+                        {
+                            user.email ?
+                                <>
+                                    <li>{user.email}</li>
+                                    <li onClick={handleLogout}>Logout</li>
+                                </>
+                                :
+                                <>
+                                    <li onClick={handleLogin}>Login</li>
+                                    <li onClick={handleRegister}>Register</li>
+                                </>
+                        }
                     </ul>
                 </div>
             </div>

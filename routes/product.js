@@ -17,23 +17,25 @@ router.get("/all", async (req, res) => {
 router.get("/", async (req, res) => {
     const token = req.cookies.jwt
     if (token) {
-        jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decodedToken, next) => {
+        jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decodedToken, next) => {
             if (err) {
                 res.send("Please login to view this page")
             } else {
                 console.log(decodedToken)
+                const re = new RegExp(`${req.query.name}`, "i");
+                const product = await Product.find({ $or: [{ title: re }, { description: re }] }).exec();
+                product.forEach(element => {
+                    element.image = `${process.env.HOST_DOMAIN}:${process.env.HOST_PORT}/image/${element.image}`
+                });
+
+                res.send(product);
                 next()
             }
         })
+    } else {
+        res.send("Please login to view this page")
     }
-    console.log('MY cookiess-------', req.cookies)
-    const re = new RegExp(`${req.query.name}`, "i");
-    const product = await Product.find({ $or: [{ title: re }, { description: re }] }).exec();
-    product.forEach(element => {
-        element.image = `${process.env.HOST_DOMAIN}:${process.env.HOST_PORT}/image/${element.image}`
-    });
 
-    res.send(product);
 
 });
 

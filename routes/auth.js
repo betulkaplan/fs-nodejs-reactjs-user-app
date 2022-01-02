@@ -8,4 +8,7 @@ router.post("/register", authController.register);
 // Login
 router.post("/login", authController.login);
 
+// CheckLogin
+router.get("/checkLogin", authController.checkLogin);
+
 module.exports = router;

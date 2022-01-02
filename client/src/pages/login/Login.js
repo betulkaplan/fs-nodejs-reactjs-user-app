@@ -13,7 +13,7 @@ const Login = () => {
     let navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['name']);
 
-    const { name, user, thefunction } = useAuth();
+    const { name, user, setUser } = useAuth();
 
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
@@ -26,13 +26,12 @@ const Login = () => {
                 body: JSON.stringify(values),
             });
             const response = await res.json();
-            console.log(res.ok);
-            console.log(response.message);
             setCookie('jwt', response.user.token, {
-                path: '/', maxAge: 86400,
+                path: '/', maxAge: 172800, // 2 days
                 secure: false
             });
             if (res.ok) {
+                setUser(response.user);
                 SuccessNotification({ description: response.message });
                 navigate("/");
             }

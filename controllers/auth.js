@@ -115,5 +115,23 @@ const login = async (req, res) => {
     }
     // Our register logic ends here
 }
+const checkLogin = async (req, res) => {
+    const token = req.cookies.jwt
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decodedToken, next) => {
+            if (err) {
+                res.send("Please login to view this page")
+            } else {
+                console.log('decoded tokenn-----', decodedToken)
 
-module.exports = { register, login };
+                res.send(decodedToken);
+                next()
+            }
+        })
+    } else {
+        res.send("Please login to view this page")
+    }
+
+}
+
+module.exports = { register, login, checkLogin };
