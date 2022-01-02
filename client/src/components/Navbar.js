@@ -10,13 +10,30 @@ const Navbar = () => {
 
     const navigate = useNavigate()
 
+    const refresh = () => {
+        window.location.reload()
+    }
+
     const handleLogin = () => {
         navigate('/login')
         console.log('handleLogin')
     }
     const handleLogout = () => {
+
+        fetch('http://localhost:5000/auth/logout',
+            {
+                credentials: 'include'
+            }).then(res =>{
+                console.log('1',res)
+                res.json()})
+            .then(res => {
+                console.log('logout function', res);
+                setUser(res);
+            }).catch(err => {
+                console.log('logout error', err);
+            });
+
         navigate('/')
-        console.log('handleLogin')
     }
     const handleRegister = () => {
         navigate('/register')
@@ -26,13 +43,13 @@ const Navbar = () => {
     return (
         <div className={style.wrapper}>
             <div className={style.container}>
-                <div className={style.leftSide}>
+                <div onClick={refresh} className={style.leftSide}>
                     <img src={logo} alt="" />
                 </div>
                 <div className={style.rightSide}>
                     <ul>
                         {
-                            user.email ?
+                            user?.email ?
                                 <>
                                     <li>{user.email}</li>
                                     <li onClick={handleLogout}>Logout</li>

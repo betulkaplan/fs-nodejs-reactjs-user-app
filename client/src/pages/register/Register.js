@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { ErrorNotification, SuccessNotification } from "../../helpers/Notifications";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from '../../contexts/AuthContext';
 
 const { Option } = Select;
 
@@ -52,6 +52,7 @@ const Register = () => {
     const [form] = Form.useForm();
     const [cookies, setCookie] = useCookies(['name']);
     let navigate = useNavigate();
+    const { name, user, setUser } = useAuth();
 
     const onFinish = async (values) => {
         try {
@@ -68,6 +69,7 @@ const Register = () => {
                 path: '/', maxAge: 86400,
                 secure: false
             });
+            setUser(response.user);
             SuccessNotification({ description: response.message });
             navigate("/")
         } catch (error) {

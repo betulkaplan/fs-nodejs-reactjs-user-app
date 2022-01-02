@@ -122,8 +122,6 @@ const checkLogin = async (req, res) => {
             if (err) {
                 res.send("Please login to view this page")
             } else {
-                console.log('decoded tokenn-----', decodedToken)
-
                 res.send(decodedToken);
                 next()
             }
@@ -134,4 +132,10 @@ const checkLogin = async (req, res) => {
 
 }
 
-module.exports = { register, login, checkLogin };
+const logout = async (req, res) => {
+    // res.cookie('jwt', 'will destroy immidiately', { maxAge: 0 })
+    res.clearCookie('jwt')
+    res.send('logout')
+}
+
+module.exports = { register, login, checkLogin, logout };
