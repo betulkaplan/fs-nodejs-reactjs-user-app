@@ -6,11 +6,14 @@ import style from './Login.module.css';
 import { ErrorNotification, SuccessNotification } from "../../helpers/Notifications";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
+import { useAuth } from '../../contexts/AuthContext';
 
 
 const Login = () => {
     let navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['name']);
+
+    const { name, user, thefunction } = useAuth();
 
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
